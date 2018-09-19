@@ -20,11 +20,15 @@
       vpc_az: "{{ region }}a"
 
       tasks:
-
         - name: Create default VPC
           ec2_vpc_net:
             name: "{{ vpc_name }}"
             cidr_block: "{{ vpc_cidr_block }}"
             region: "{{ region }}"
           register: create_vpc
+          tags: vpc
+
+        - name: "Set fact: VPC ID"
+          set_fact:
+            vpc_id: "{{ create_vpc.vpc.id }}"
           tags: vpc
