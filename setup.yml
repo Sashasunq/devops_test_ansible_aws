@@ -1,16 +1,13 @@
 ---
   - name: Provision an EC2 Instance
-    hosts: localhost
     connection: local
+    hosts: localhost
     gather_facts: False
 
     # Necessary Variables for creating/provisioning the EC2 Instance
     vars:
-      security_group: devops-task-sg
-      instance_type: t2.micro # Change the security group name here
-      image: ami-04169656fea786776 # This is an AMI i created myself
-      keypair: devops_key.pem # This is one of my keys that i already have in AWS
-      region: us-east-1 # Change the Region
+      security_group: test
+      region:  us-east-1
       count: 1
       vpc_name: devops-task-vpc
       vpc_cidr_block: 10.0.0.0/16
