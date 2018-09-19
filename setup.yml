@@ -12,12 +12,12 @@
       image: ami-00bbb68c7e6ca73ce
       keypair: main
       count: 2
-        private-a:
-          cidr: 10.0.1.0/24
-          az: "{{ aws_region }}a"
-        public-a:
-          cidr: 10.0.2.0/24
-          az: "{{ aws_region }}a"
+      vpc_name: main
+      vpc_key: main
+      vpc_dns_zone: ansible-vpc
+      vpc_cidr_block: 10.0.0.0/16
+      vpc_cidr: 10.0.1.0/24
+      vpc_az: "{{ region }}a"
 
     # Task that will be used to Launch/Create an EC2 Instance
     tasks:
