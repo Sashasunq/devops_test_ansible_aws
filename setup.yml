@@ -6,15 +6,13 @@
 
     # Necessary Variables for creating/provisioning the EC2 Instance
     vars:
-      security_group: ansible-sg
+      security_group: devops-task-sg
       instance_type: t2.micro # Change the security group name here
       image: ami-04169656fea786776 # This is an AMI i created myself
-      keypair: devops_key # This is one of my keys that i already have in AWS
+      keypair: devops_key.pem # This is one of my keys that i already have in AWS
       region: us-east-1 # Change the Region
       count: 1
-      vpc_name: ansible-vpc
-      vpc_key: ansible-key
-      vpc_dns_zone: ansible-vpc
+      vpc_name: devops-task-vpc
       vpc_cidr_block: 10.0.0.0/16
       vpc_subnets:
         private-a:
