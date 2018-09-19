@@ -32,3 +32,15 @@
           set_fact:
             vpc_id: "{{ create_vpc.vpc.id }}"
           tags: vpc
+
+        - name: Сreate VPC subnet
+          ec2_vpc_subnet:
+            vpc_id: "{{ vpc_id }}"
+            cidr: "{{ vpc_cidr }}"
+            az: "{{ vpc_az }}"
+            region: "{{ region }}"
+            map_public: yes
+            tags:
+              Name: "{{ vpc_name }}"
+          register: create_vpc_subnet
+          tags: vpc
