@@ -5,3 +5,4 @@
 hosts.ini
 ansible.log
 .env
+.DS_Store
