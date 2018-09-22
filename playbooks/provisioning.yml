@@ -6,3 +6,12 @@
 
   roles:
     - backend
+
+# FRONTEND SETUP
+
+- hosts: tag_Name_fronted
+  gather_facts: true
+  become: yes
+
+  roles:
+    - frontend
