@@ -1,0 +1,5 @@
+ansible_ssh_user: ec2-user
+
+region:  us-east-2
+instance_type: t2.micro
+# image: ami-03291866
