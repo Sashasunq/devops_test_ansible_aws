@@ -35,28 +35,28 @@
 
     - name: Create Internet Gateway for VPC
       ec2_vpc_igw:
-        vpc_id:           "{{ vpc_id }}"
-        region:           "{{ region }}"
-        state:            "present"
+        vpc_id: "{{ vpc_id }}"
+        region: "{{ region }}"
+        state: "present"
       register: my_vpc_igw
       tags: vpc,gw
 
     - name: Set Internet Gateway ID in variable
       set_fact:
-        igw_id:           "{{ my_vpc_igw.gateway_id }}"
+        igw_id: "{{ my_vpc_igw.gateway_id }}"
       tags: vpc,gw
 
     - name: Set up VPC subnet route table
       ec2_vpc_route_table:
-        vpc_id:           "{{ vpc_id }}"
-        region:           "{{ region }}"
+        vpc_id: "{{ vpc_id }}"
+        region: "{{ region }}"
         tags:
-          Name:           "Public"
+          Name: "Public"
         subnets:
           - "{{ create_vpc_subnet.subnet.id }}"
         routes:
-          - dest:         "0.0.0.0/0"
-            gateway_id:   "{{ igw_id }}"
+          - dest: "0.0.0.0/0"
+            gateway_id: "{{ igw_id }}"
       tags: vpc,gw
 
     - name: Create a security group
