@@ -8,9 +8,6 @@
     - name: Load main set of variables
       include_vars:
         file: "{{ playbook_dir }}/../vars/main.yaml"
-    - name: Load environment-specific set of variables
-      include_vars:
-        file: "{{ playbook_dir }}/../vars/{{ environment_target }}.yaml"
 
   tasks:
 

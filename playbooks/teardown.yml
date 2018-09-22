@@ -5,15 +5,6 @@
 - hosts: ec2
   connection: local
   gather_facts: false
-
-  pre_tasks:
-    - name: Load main set of variables
-      include_vars:
-        file: "{{ playbook_dir }}/../vars/main.yaml"
-    - name: Load environment-specific set of variables
-      include_vars:
-        file: "{{ playbook_dir }}/../vars/{{ environment_target }}.yaml"
-
   tasks:
 
     - name: Load main set of variables
@@ -41,6 +32,10 @@
   connection: local
   gather_facts: false
   tasks:
+
+    - name: Load main set of variables
+      include_vars:
+        file: "{{ playbook_dir }}/../vars/main.yaml"
 
     - name: Get VPC IDS
       ec2_vpc_net_facts:
