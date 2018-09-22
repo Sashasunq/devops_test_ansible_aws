@@ -1,0 +1,8 @@
+# BACKEND SETUP
+
+- hosts: tag_Name_backend
+  gather_facts: true
+  become: yes
+
+  roles:
+    - backend
