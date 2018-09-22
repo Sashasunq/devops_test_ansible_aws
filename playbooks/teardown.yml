@@ -1,0 +1,80 @@
+---
+
+# EC2 TEARDOWN
+
+- hosts: ec2
+  connection: local
+  gather_facts: false
+  tasks:
+
+    - name: Get EC2 facts
+      ec2_instance_facts:
+      tags: ec2
+
+    - debug: var="ec2_id"
+
+    - name: Terminate all EC2 instances
+      ec2:
+        state: 'absent'
+        instance_ids: '{{ ec2_id }}'
+        region: '{{ region }}'
+        wait: True
+      tags: ec2
+      when: ec2_id is defined
+
+# NETWORK TEARDOWN
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+    - name: Get VPC IDS
+      ec2_vpc_net_facts:
+        region: "{{ region }}"
+        filters:
+          "tag:Name": "{{ vpc_name }}"
+      register: vpc_facts
+      tags: vpc
+
+    - name: Remove subnet route table
+      ec2_vpc_route_table:
+       region: "{{ region }}"
+       state: absent
+       tags:
+         Name: "Public"
+       vpc_id: "{{ vpc_facts['vpcs'][0]['id'] }}"
+      tags: vpc
+
+    - name: Remove Public Subnet
+      ec2_vpc_subnet:
+        state: absent
+        cidr: "{{ vpc_cidr }}"
+        region: "{{ region }}"
+        vpc_id: "{{ vpc_facts['vpcs'][0]['id'] }}"
+      tags: vpc
+
+    - name: Remove internet gateway
+      ec2_vpc_igw:
+        vpc_id: "{{ vpc_facts['vpcs'][0]['id'] }}"
+        state: absent
+        region: "{{ region }}"
+      tags: vpc
+
+    - name: Remove VPC
+      ec2_vpc_net:
+        name: "{{ vpc_name }}"
+        state: absent
+        cidr_block: "{{ vpc_cidr }}"
+        region: "{{ region }}"
+      tags: vpc
+
+# CREDENTIALS TEARDOWN
+
+    - name: Remove project EC2 key pair
+      ec2_key:
+        name: "{{ keypair }}"
+        key_material: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+        region: "{{ region }}"
+        state: absent
+      tags: keypair
