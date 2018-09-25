@@ -92,6 +92,7 @@
         instance_tags:
                Name: backend
         vpc_subnet_id: "{{ create_vpc_subnet.subnet.id }}"
+        private_ip: "{{ backend_ip }}"
       register: ec2
       tags: launchvm
 
@@ -106,7 +107,7 @@
         count: "{{count}}"
         instance_tags:
                Name: frontend
-        vpc_subnet_id: "{{ create_vpc_subnet.subnet.id }}private_ip: "{{ backend_ip }}""
+        vpc_subnet_id: "{{ create_vpc_subnet.subnet.id }}"
         private_ip: "{{ backend_ip }}"
       register: ec2
       tags: launchvm
